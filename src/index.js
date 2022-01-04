@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-// const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
@@ -23,7 +23,31 @@ function checksExistsUserAccount(request, response, next) {
 }
 
 app.post('/users', (request, response) => {
-  // Complete aqui
+  const {name, username} = request.body;
+
+  if(!username){
+    return response.status(400).json({error: 'Missing property username on body'});
+  }
+
+  if(!name){
+    return response.status(400).json({error: 'Missing property name on body'});
+  }
+
+  const userAlreadyExists = users.some(user => user.username === username);
+  if(userAlreadyExists) {
+    return response.status(400).json({error: 'User already exists'});
+  }
+
+  const newUser = {
+    id: uuidv4(),
+    name,
+    username,
+    todos: []
+  };
+
+  users.push(newUser);
+
+  return response.status(201).json(newUser);
 });
 
 app.get('/todos', checksExistsUserAccount, (request, response) => {
