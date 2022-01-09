@@ -91,7 +91,7 @@ app.put('/todos/:id', checksExistsUserAccount, checksExistsUserTodo, (request, r
   const { todo } = request;
 
   if(title) todo.title = title;
-  if(deadline) todo.deadline = deadline;
+  if(deadline) todo.deadline = new Date(deadline);
 
   return response.status(200).json(todo);
 });
