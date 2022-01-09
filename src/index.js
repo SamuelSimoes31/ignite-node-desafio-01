@@ -109,7 +109,7 @@ app.delete('/todos/:id', checksExistsUserAccount, checksExistsUserTodo, (request
 
   user.todos = user.todos.filter(todo => todo !== todoFound);
 
-  return response.status(200).json(user.todos);
+  return response.status(204).json([]);
 });
 
 module.exports = app;
